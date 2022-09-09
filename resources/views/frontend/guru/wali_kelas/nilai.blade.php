@@ -1,0 +1,204 @@
+@extends('layouts.template_guru')
+@section('contents')
+
+    <div class="row justify-content-center">
+        <div class="card col-sm-12 col-lg-5">
+            <div class="card-body">
+                
+                    <div class="row">
+                        <div class="col mb-3 mb-lg-0 text-center">
+                            <i data-feather="book-open" style="width: 80px; height: 60px; color: #6c757d"></i>
+                            <div class="mt-2 font-weight-bold" style="color: #6c757d;">Nilai Tugas</div>
+                            {{-- <h6 class="badge badge-dark">{{ $materi_hari_ini }}</h6><br> --}}
+                            <!-- Button trigger modal -->
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#nilai_tugas" aria-expanded="false" aria-controls="nilai_tugas">
+                                Lihat
+                            </button>
+                        </div>
+                        <div class="col mb-3 mb-lg-0 text-center">
+                            <i data-feather="book-open" style="width: 80px; height: 60px; color: #6c757d"></i>
+                            <div class="mt-2 font-weight-bold" style="color: #6c757d;">Nilai Ulangan</div>
+                            {{-- <h6 class="badge badge-dark">{{ $materi_hari_ini }}</h6><br> --}}
+                            <!-- Button trigger modal -->
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#nilai_ulangan" aria-expanded="false" aria-controls="nilai_ulangan">
+                                Lihat
+                            </button>
+                        </div>
+                        <div class="col mb-3 mb-lg-0 text-center">
+                            <i data-feather="book-open" style="width: 80px; height: 60px; color: #6c757d"></i>
+                            <div class="mt-2 font-weight-bold" style="color: #6c757d;">Nilai Ujian</div>
+                            {{-- <h6 class="badge badge-dark">{{ $materi_hari_ini }}</h6><br> --}}
+                            <!-- Button trigger modal -->
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#nilai_ujian" aria-expanded="false" aria-controls="nilai_ujian">
+                                Lihat
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="card col-sm-12 col-lg-6 mx-1">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col mb-4 mb-lg-0 text-center">
+                        <i data-feather="user-x" style="width: 100px; height: 40px"></i>
+                        <div class="mt-2 font-weight-bold mb-1">siswa Nilai KKM</div>
+                        <h6 class="badge badge-dark">0</h6> siswa
+                    </div>
+                    {{-- tugas_pertemuan --}}
+
+                    <div class="col mb-4 mb-lg-0 text-center">
+                        <i data-feather="user-x" style="width: 100px; height: 40px"></i>
+                        <div class="mt-2 font-weight-bold mb-1">Siswa Nilai dibawah KKM</div>
+                        <h6 class="badge badge-danger">0</h6> siswa
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="collapse" id="nilai_tugas">
+   <div class="col-12 mt-4">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="nav-item">
+                                <form action="{{ route('wali_kelas_nilai_cari') }}" method="get" class="site-block-top-search" >
+                                    @csrf
+                                    {{-- <span class="icon icon-search2"></span> --}}
+                                    {{-- <input type="text" class="form-control border-0" name="cari" placeholder="Search"> --}}
+                                    <p>
+                                        <select class="form-control" name="cari" id="cari">
+                                            <option class="form-control" value="semester 1 ganjil">semester 1 ganjil</option>
+                                            <option class="form-control" value="semester 1">semester 1</option>
+                                            <option class="form-control" value="semester 2 ganjil">semester 2 ganjil</option>
+                                            <option class="form-control" value="semester 2">semester 2</option>
+                                        </select>
+
+                                        <select class="form-control mt-2" name="tahun_ajaran" id="tahun_ajaran">
+                                            <option class="form-control" value="2020">2020</option>
+                                            <option class="form-control" value="2021">2021</option>
+                                            <option class="form-control" value="2022">2022</option>
+                                        </select>
+                                    </p>
+                                    <input type="submit" class="btn btn-primary mt-2" value="cari"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Siswa</th>
+                                    <th>nisn</th>
+                                    <th>nilai</th>
+                                    <th>kelas</th>
+                                    <th>semester</th>
+                                    <th>tahun ajaran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <h1>nilai tugas rata rata</h1>
+                                @foreach($nilai_tugas as $p)
+                                    <tr>
+                                        <td>{{$p->siswa_name}}</td>
+                                        <td>{{$p->nisn_siswa}}</td>
+                                        <td>{{$p->nilai / $p->siswa_id * 0.3 }}</td>
+                                        <td>{{$p->kelas_name}}</td>
+                                        <td>{{$p->semesters}}</td>
+                                        <td>{{$p->tahun_ajaran}}</td>
+                                        {{-- <td><a href="{{ route('get_raport', $p->id) }}"> get</a></td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="collapse" id="nilai_ulangan">
+<div class="col-12 mt-4">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Siswa</th>
+                                    <th>nisn</th>
+                                    <th>nilai</th>
+                                    <th>kelas</th>
+                                    <th>semester</th>
+                                    <th>tahun ajaran</th>
+                                    {{-- <th>action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <h1>nilai ulangan rata rata</h1>
+                                @foreach($nilai_ulangan as $p)
+                                    <tr>
+                                        <td>{{$p->siswa_name}}</td>
+                                        <td>{{$p->nisn_siswa}}</td>
+                                        <td>{{$p->nilai / $p->siswa_id * 0.3 }}</td>
+                                        <td>{{$p->kelas_name}}</td>
+                                        <td>{{$p->semesters}}</td>
+                                        <td>{{$p->tahun_ajaran}}</td>
+                                        {{-- <td><a href="{{ route('get_raport', $p->id) }}"> get</a></td> --}}
+                                        {{-- <td>get</td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<div class="collapse" id="nilai_ujian">
+        <div class="col-12 mt-4">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Siswa</th>
+                                    <th>nisn</th>
+                                    <th>nilai</th>
+                                    <th>kelas</th>
+                                    <th>semester</th>
+                                    <th>tahun ajaran</th>
+                                    {{-- <th>action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <h1>nilai ujian rata rata</h1>
+                                @foreach($nilai_ujian as $p)
+                                    <tr>
+                                        <td>{{$p->siswa_name}}</td>
+                                        <td>{{$p->nisn_siswa}}</td>
+                                        <td>{{$p->nilai / $p->siswa_id * 0.4 }}</td>
+                                        <td>{{$p->kelas_name}}</td>
+                                        <td>{{$p->semesters}}</td>
+                                        <td>{{$p->tahun_ajaran}}</td>
+                                        {{-- <td><a href="{{ route('get_raport', $p->id) }}"> get</a></td> --}}
+                                        {{-- <td>get</td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+@endsection
